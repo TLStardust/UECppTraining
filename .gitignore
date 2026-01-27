@@ -1,0 +1,18 @@
+# Visual Studio files
+.vs/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.user
+
+# Unreal Engine generated files (这些是垃圾文件，不要备份！)
+Binaries/
+Intermediate/
+DerivedDataCache/
+Saved/
+Build/
+
+# OS junk
+.DS_Store
+Thumbs.db
