@@ -26,3 +26,9 @@ void AMyTrainingActor::Tick(float DeltaTime)
 
 }
 
+void AMyTrainingActor::HealSelf(float Amount)
+{
+	MaxHealth += Amount;
+	UE_LOG(LogTemp, Warning, TEXT("C++: HealSelf Called! Current Health: %f"), MaxHealth);
+	OnHealthChanged(MaxHealth);
+}

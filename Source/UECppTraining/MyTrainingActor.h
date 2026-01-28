@@ -20,6 +20,12 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Stats")
 	bool bIsInvincible = false;
 
+	UFUNCTION(BlueprintCallable, Category = "Actions")
+	void HealSelf(float Amount);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Events")
+	void OnHealthChanged(float NewHealth);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
