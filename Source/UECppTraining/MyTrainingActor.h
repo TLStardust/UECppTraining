@@ -14,6 +14,11 @@ class UECPPTRAINING_API AMyTrainingActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMyTrainingActor();
+	UPROPERTY(EditDefaultsOnly,Category = "Stats")
+	float MaxHealth = 100.0f;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Stats")
+	bool bIsInvincible = false;
 
 protected:
 	// Called when the game starts or when spawned
