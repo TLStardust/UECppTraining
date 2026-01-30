@@ -2,6 +2,9 @@
 
 # Naming convention rules (note: currently need to be ordered from more to less specific)
 
+charset = utf-8-bom  
+indent_style = tab
+indent_size = 4
 cpp_naming_rule.aactor_prefixed.symbols                    = aactor_class
 cpp_naming_rule.aactor_prefixed.style                      = aactor_style
 
