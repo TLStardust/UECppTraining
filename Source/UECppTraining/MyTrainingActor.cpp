@@ -2,6 +2,7 @@
 
 
 #include "MyTrainingActor.h"
+#include"StringPerfTester.h"
 
 // Sets default values
 AMyTrainingActor::AMyTrainingActor()
@@ -16,6 +17,9 @@ void AMyTrainingActor::BeginPlay()
 {
 	UE_LOG(LogTemp, Error, TEXT("=== [Actor] BeginPlay: Actor 觉醒，游戏正式开始！ ==="));
 	Super::BeginPlay();
+	UStringPerfTester::TestFStringAppend(1000000);
+	UStringPerfTester::TestStringBuilderAppend(1000000);
+
 }
 
 // Called every frame
