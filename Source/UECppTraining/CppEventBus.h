@@ -22,4 +22,9 @@ public:
 	// 提供一个简单的函数供 C++ 或蓝图触发广播
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void BroadcastHealthChange(float NewValue);
+
+	UFUNCTION(BlueprintCallable, Category = "SafetyTest")
+	void StartSafeTimer(AActor* TargetActor);
+
+	void OnTimerFinished(TWeakObjectPtr<AActor> WeakPtr);
 };
