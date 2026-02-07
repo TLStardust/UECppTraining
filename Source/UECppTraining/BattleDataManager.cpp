@@ -16,8 +16,6 @@ ABattleDataManager::ABattleDataManager()
 void ABattleDataManager::BeginPlay()
 {
 	Super::BeginPlay();
-	RunRemoveTest();
-	RunReserveTest();
 }
 
 // Called every frame

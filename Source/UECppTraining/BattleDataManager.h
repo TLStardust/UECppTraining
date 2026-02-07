@@ -56,3 +56,21 @@ private:
 	// 每一组测试的数量
 	const int32 TestCount = 10000;
 };
+
+template<typename T>
+void FastRemove(TArray<T>& Array, int32 Index)
+{
+	if (!Array.IsValidIndex(Index))
+	{
+		return;
+	}
+
+	if (Index == Array.Num())
+	{
+		Array.Pop();
+		return;
+	}
+
+	Array[Index] = MoveTemp(Array[Array.Num() - 1]);
+	Array.Pop();
+}
