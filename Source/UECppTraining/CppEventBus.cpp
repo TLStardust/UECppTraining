@@ -2,6 +2,7 @@
 
 
 #include"TimerManager.h"
+#include"CombatInterface.h"
 #include "CppEventBus.h"
 
 void UCppEventBus::BroadcastHealthChange(float NewValue)
@@ -33,4 +34,22 @@ void UCppEventBus::StartSafeTimer(AActor* TargetActor)
 				UE_LOG(LogTemp, Error, TEXT("Timer Safe: Actor was destroyed, but we avoided a CRASH!"));
 			}
 		}, 3.0f, false);
+}
+
+void UCppEventBus::TriggerInterfaceTest(AActor* TargetActor)
+{
+	if (!TargetActor)
+	{
+		return;
+	}
+
+	if (TargetActor->Implements<UCombatInterface>())
+	{
+		ICombatInterface::Execute_OnTakeDamage(TargetActor, 20.0f);
+		UE_LOG(LogTemp, Warning, TEXT("Interface Bus: Sent Damage Command to %s"), *TargetActor->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Interface Bus: Target does NOT have CombatInterface!"));
+	}
 }

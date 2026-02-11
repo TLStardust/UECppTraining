@@ -26,5 +26,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "SafetyTest")
 	void StartSafeTimer(AActor* TargetActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void TriggerInterfaceTest(AActor* TargetActor);
+
 	void OnTimerFinished(TWeakObjectPtr<AActor> WeakPtr);
 };
