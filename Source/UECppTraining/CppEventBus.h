@@ -5,7 +5,14 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "CppEventBus.generated.h"
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
+UENUM(BlueprintType)
+enum class EActionState :uint8
+{
+	Idle		UMETA(DisplayName = "闲置"),
+	Attacking	UMETA(DisplayName = "攻击中"),
+	Stunned		UMETA(DisplayName = "硬直/受击"),
+	Dead		UMETA(DisplayName = "死亡")
+};
 /**
  * 
  */
@@ -16,8 +23,6 @@ class UECPPTRAINING_API UCppEventBus : public UGameInstanceSubsystem
 
 public:
 	// 暴露给蓝图，允许蓝图“赋值”和“绑定”
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnHealthChanged OnHealthChanged;
 
 	// 提供一个简单的函数供 C++ 或蓝图触发广播
 	UFUNCTION(BlueprintCallable, Category = "Events")
@@ -30,4 +35,10 @@ public:
 	void TriggerInterfaceTest(AActor* TargetActor);
 
 	void OnTimerFinished(TWeakObjectPtr<AActor> WeakPtr);
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EActionState CurrentState = EActionState::Idle;
+
+	UFUNCTION(BlueprintCallable, Category = "State")
+	void HandleStateChange(EActionState NewState);
 };

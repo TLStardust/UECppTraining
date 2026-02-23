@@ -1,14 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include"CppEventBus.h"
 #include"TimerManager.h"
 #include"CombatInterface.h"
-#include "CppEventBus.h"
 
 void UCppEventBus::BroadcastHealthChange(float NewValue)
 {
-	// 触发广播，所有在这个事件上连了线的蓝图都会收到通知
-	OnHealthChanged.Broadcast(NewValue);
+
 }
 
 void UCppEventBus::StartSafeTimer(AActor* TargetActor)
@@ -51,5 +50,29 @@ void UCppEventBus::TriggerInterfaceTest(AActor* TargetActor)
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Interface Bus: Target does NOT have CombatInterface!"));
+	}
+}
+
+void UCppEventBus::HandleStateChange(EActionState NewState)
+{
+	CurrentState = NewState;
+
+	switch (CurrentState)
+	{
+	case EActionState::Idle:
+		UE_LOG(LogTemp, Log, TEXT("State: 角色回到闲置状态"));
+		break;
+
+	case EActionState::Attacking:
+		UE_LOG(LogTemp, Warning, TEXT("State: 正在进入攻击态，禁止移动！"));
+		break;
+
+	case EActionState::Stunned:
+		UE_LOG(LogTemp, Error, TEXT("State: 角色进入硬直，中断当前动作！"));
+		break;
+
+	case EActionState::Dead:
+		UE_LOG(LogTemp, Fatal, TEXT("State: 角色死亡！游戏结束逻辑启动"));
+		break;
 	}
 }
