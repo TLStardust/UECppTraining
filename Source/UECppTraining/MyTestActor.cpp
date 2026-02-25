@@ -25,7 +25,7 @@ void AMyTestActor::Tick(float DeltaTime)
 
 }
 
-void AMyTestActor::OnTakeDamage_Implementation(float DamageAmount)
+void AMyTestActor::OnTakeDamage_Implementation(const FDamageContext& Context)
 {
-	UE_LOG(LogTemp, Warning, TEXT("C++ Interface: I took %f damage!"), DamageAmount);
+	UE_LOG(LogTemp, Warning, TEXT("C++ Interface: I took %f damage!"), Context.DamageAmount);
 }

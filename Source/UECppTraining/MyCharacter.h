@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "MyCharacter.generated.h"
 class UHealthComponent;
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS()
 class UECPPTRAINING_API AMyCharacter : public ACharacter
@@ -29,4 +32,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UHealthComponent* HealthComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* AttackAction;
+
+	void Input_Attack(const FInputActionValue& Value);
 };

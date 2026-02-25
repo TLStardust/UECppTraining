@@ -44,7 +44,9 @@ void UCppEventBus::TriggerInterfaceTest(AActor* TargetActor)
 
 	if (TargetActor->Implements<UCombatInterface>())
 	{
-		ICombatInterface::Execute_OnTakeDamage(TargetActor, 20.0f);
+		FDamageContext Context;
+		Context.DamageAmount = 20.0f;
+		ICombatInterface::Execute_OnTakeDamage(TargetActor, Context);
 		UE_LOG(LogTemp, Warning, TEXT("Interface Bus: Sent Damage Command to %s"), *TargetActor->GetName());
 	}
 	else

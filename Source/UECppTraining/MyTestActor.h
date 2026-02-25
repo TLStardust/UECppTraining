@@ -15,7 +15,7 @@ class UECPPTRAINING_API AMyTestActor : public AActor,public ICombatInterface
 public:	
 	// Sets default values for this actor's properties
 	AMyTestActor();
-	virtual void OnTakeDamage_Implementation(float DamageAmount) override;
+	virtual void OnTakeDamage_Implementation(const FDamageContext& Context) override;
 
 protected:
 	// Called when the game starts or when spawned

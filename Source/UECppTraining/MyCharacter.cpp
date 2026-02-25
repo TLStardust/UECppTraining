@@ -3,6 +3,8 @@
 
 #include "MyCharacter.h"
 #include "HealthComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -16,9 +18,14 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
-
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)
 {
@@ -30,6 +37,17 @@ void AMyCharacter::Tick(float DeltaTime)
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Started, this, &AMyCharacter::Input_Attack);
+	}
 }
 
+void AMyCharacter::Input_Attack(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("C++: Attack Action Triggered!"));
+	if (HealthComp)
+	{
+		HealthComp->DamageHealth(40.0);
+	}
+}
