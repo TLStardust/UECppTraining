@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "CombatInterface.h"
 #include "MyCharacter.generated.h"
 class UHealthComponent;
 class UInputMappingContext;
 class UInputAction;
 
 UCLASS()
-class UECPPTRAINING_API AMyCharacter : public ACharacter
+class UECPPTRAINING_API AMyCharacter : public ACharacter,public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -40,4 +41,6 @@ public:
 	UInputAction* AttackAction;
 
 	void Input_Attack(const FInputActionValue& Value);
+
+	virtual void OnTakeDamage_Implementation(const FDamageContext& Context) override;
 };

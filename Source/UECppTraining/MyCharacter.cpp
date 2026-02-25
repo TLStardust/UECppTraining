@@ -51,3 +51,8 @@ void AMyCharacter::Input_Attack(const FInputActionValue& Value)
 		HealthComp->DamageHealth(40.0);
 	}
 }
+
+void AMyCharacter::OnTakeDamage_Implementation(const FDamageContext& Context)
+{
+	UE_LOG(LogTemp, Warning, TEXT("C++ Interface: I took %f damage!"), Context.DamageAmount);
+}
