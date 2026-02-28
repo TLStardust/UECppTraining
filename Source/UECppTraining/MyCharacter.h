@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "InputActionValue.h"
 #include "CombatInterface.h"
+#include "CppEventBus.h"
+#include "GameplayTagContainer.h"
 #include "MyCharacter.generated.h"
 class UHealthComponent;
 class UInputMappingContext;
 class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class UECPPTRAINING_API AMyCharacter : public ACharacter,public ICombatInterface
@@ -23,6 +25,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UFUNCTION()
+	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
+	FGameplayTagContainer ActiveGameplayTags;
 
 public:	
 	// Called every frame
@@ -39,6 +45,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* AttackAction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	EActionState ActionState = EActionState::Idle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Combat", meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* AttackMontage;
 
 	void Input_Attack(const FInputActionValue& Value);
 

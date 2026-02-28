@@ -45,14 +45,30 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AMyCharacter::Input_Attack(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("C++: Attack Action Triggered!"));
-	if (HealthComp)
+	if (ActionState != EActionState::Idle || !AttackMontage)
 	{
-		HealthComp->DamageHealth(40.0);
+		return;
+	}
+	ActionState = EActionState::Attacking;
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		AnimInstance->Montage_Play(AttackMontage);
+		FOnMontageEnded MontageEndedDelegate;
+		MontageEndedDelegate.BindUObject(this, &AMyCharacter::OnAttackMontageEnded);
+		AnimInstance->Montage_SetEndDelegate(MontageEndedDelegate, AttackMontage);
 	}
 }
 
 void AMyCharacter::OnTakeDamage_Implementation(const FDamageContext& Context)
 {
-	UE_LOG(LogTemp, Warning, TEXT("C++ Interface: I took %f damage!"), Context.DamageAmount);
+	if (HealthComp)
+	{
+		HealthComp->DamageHealth(Context.DamageAmount);
+	}
+}
+
+void AMyCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	ActionState = EActionState::Idle;
 }
