@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
 USTRUCT(BlueprintType)
@@ -28,6 +29,22 @@ struct FDamageContext
 	{
 		// 可以在这里写初始化逻辑，也可以像上面那样直接在变量后面赋值
 	}
+};
+
+USTRUCT(BlueprintType)
+struct FSkillDataRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float DamageMultiplier = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CoolDown = 2.0f;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FGameplayTag SkillTag;
+
 };
 
 // This class does not need to be modified.

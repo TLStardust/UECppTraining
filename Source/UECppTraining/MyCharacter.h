@@ -30,6 +30,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
 	FGameplayTagContainer ActiveGameplayTags;
 
+	UPROPERTY(EditAnywhere, Category = "Data")
+	UDataTable* SkillTable;
+
+	UFUNCTION()
+	void LoadSkillData(FName RowName);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

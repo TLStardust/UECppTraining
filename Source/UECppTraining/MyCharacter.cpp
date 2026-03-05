@@ -72,3 +72,17 @@ void AMyCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted
 {
 	ActionState = EActionState::Idle;
 }
+
+void AMyCharacter::LoadSkillData(FName RowName)
+{
+	if (SkillTable)
+	{
+		// 这是 C++ 读取表的标准范式
+		FSkillDataRow* Row = SkillTable->FindRow<FSkillDataRow>(RowName, TEXT("SkillSearchContext"));
+		if (Row)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Data Found! Damage: %f"), Row->DamageMultiplier);
+			// 此时你可以把这个数值赋值给你的战斗逻辑
+		}
+	}
+}
