@@ -86,3 +86,17 @@ void AMyCharacter::LoadSkillData(FName RowName)
 		}
 	}
 }
+
+void AMyCharacter::Fire()
+{
+	// 子弹的初始位置和旋转（通常从相机或枪口获取）
+	FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.0f;
+	FRotator SpawnRotation = GetActorRotation();
+
+	// 核心：不再用 SpawnActor，而是找子系统要
+	if (UBattleManagerSubsystem* PoolSub = GetWorld()->GetSubsystem<UBattleManagerSubsystem>())
+	{
+		// ProjectileClass 是你在蓝图里指定的 APoolProjectile 的子类
+		PoolSub->GetProjectile(ProjectileClass, SpawnLocation, SpawnRotation);
+	}
+}

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
+#include "APoolProjectile.h"
 #include "BattleManagerSubsystem.generated.h"
 
 /**
@@ -36,6 +37,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RegisterTickData(AActor* InOwner, float InHealth);
 
+	UFUNCTION(BlueprintCallable, Category = "ProjectilePool")
+	AActor* GetProjectile(TSubclassOf<AActor> ProjectileClass, FVector Location, FRotator Rotation);
+
+	UFUNCTION(BlueprintCallable, Category = "ProjectilePool")
+	void ReturnToPool(AActor* Proj);
+
 protected:
 	void ProcessMassiveTick();
 
@@ -44,4 +51,10 @@ private:
 
 	UPROPERTY()
 	TArray<FMonsterTickData> TickDataPool;
+
+	UPROPERTY()
+	TArray<AActor*> ActiveProjectilesPool;
+
+	UPROPERTY()
+	TArray<AActor*> InactiveProjectilesPool;
 };

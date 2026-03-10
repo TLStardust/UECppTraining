@@ -7,6 +7,8 @@
 #include "CombatInterface.h"
 #include "CppEventBus.h"
 #include "GameplayTagContainer.h"
+#include "BattleManagerSubsystem.h"
+#include "APoolProjectile.h"
 #include "MyCharacter.generated.h"
 class UHealthComponent;
 class UInputMappingContext;
@@ -27,6 +29,7 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION()
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
 	FGameplayTagContainer ActiveGameplayTags;
 
@@ -35,6 +38,9 @@ protected:
 
 	UFUNCTION()
 	void LoadSkillData(FName RowName);
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	TSubclassOf<AAPoolProjectile> ProjectileClass;
 
 public:	
 	// Called every frame
@@ -61,4 +67,7 @@ public:
 	void Input_Attack(const FInputActionValue& Value);
 
 	virtual void OnTakeDamage_Implementation(const FDamageContext& Context) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 };
