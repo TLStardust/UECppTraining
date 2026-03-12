@@ -5,13 +5,20 @@
 #include "HealthComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "AbilitySystemComponent.h"
+#include "RXAttributeSet.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComp"));
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+
+	AttributeSet = CreateDefaultSubobject<URXAttributeSet>(TEXT("AttributeSet"));
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +30,17 @@ void AMyCharacter::BeginPlay()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		if (AttributeSet)
+		{
+			AttributeSet->InitHealth(100.f);
+			AttributeSet->InitMaxHealth(100.f);
 		}
 	}
 }
@@ -99,4 +117,9 @@ void AMyCharacter::Fire()
 		// ProjectileClass 是你在蓝图里指定的 APoolProjectile 的子类
 		PoolSub->GetProjectile(ProjectileClass, SpawnLocation, SpawnRotation);
 	}
+}
+
+UAbilitySystemComponent* AMyCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }

@@ -9,20 +9,24 @@
 #include "GameplayTagContainer.h"
 #include "BattleManagerSubsystem.h"
 #include "APoolProjectile.h"
+#include "AbilitySystemInterface.h"
 #include "MyCharacter.generated.h"
 class UHealthComponent;
 class UInputMappingContext;
 class UInputAction;
+class UAbilitySystemComponent;
+class URXAttributeSet;
 struct FInputActionValue;
 
 UCLASS()
-class UECPPTRAINING_API AMyCharacter : public ACharacter,public ICombatInterface
+class UECPPTRAINING_API AMyCharacter : public ACharacter,public ICombatInterface, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	AMyCharacter();
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,6 +46,11 @@ protected:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TSubclassOf<AAPoolProjectile> ProjectileClass;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GAS")
+	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY()
+	URXAttributeSet* AttributeSet;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
